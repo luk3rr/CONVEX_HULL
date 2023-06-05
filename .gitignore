@@ -1,0 +1,7 @@
+bin/*
+obj/*
+*.out*
+*.dat
+*.png*
+*.html
+arvore.txt
