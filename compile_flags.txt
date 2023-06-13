@@ -1,4 +1,6 @@
 -xc++
 -I
 include
+-I
+3rd_party
 --std=c++20
