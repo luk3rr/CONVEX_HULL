@@ -11,9 +11,20 @@ PROGRAM_NAME = program
 TEST_NAME = test
 
 # CONFIGURAÇÕES DO COMPILADOR
-CC = g++
+OS_NAME := $(shell grep -oP '(?<=^NAME=).+' /etc/os-release | tr -d '"')
+
+ifeq ($(OS_NAME), Arch Linux)
+	CC = g++
+
+else ifeq ($(OS_NAME), Ubuntu)
+    # Please, install g++12: sudo apt install g++-12
+	CC = g++-12
+
+endif
+
 LIBS = -lm
-CFLAGS = --std=c++20 -O0 -Wall -lsfml-graphics -lsfml-window -lsfml-system
+CFLAGS = --std=c++20 -O0 -Wall
+SFML_FLAGS = -lsfml-graphics -lsfml-window -lsfml-system
 
 # ARQUIVOS
 MAIN = $(OBJ_DIR)/main.o
@@ -45,10 +56,10 @@ tests: $(OBJ_DIR)/$(TEST_NAME)
 	$(BIN_DIR)/$(TEST_NAME)
 
 $(OBJ_DIR)/$(TEST_NAME): $(TEST_OBJS) $(PROGRAM_OBJS)
-	$(CC) $(CFLAGS) $(TEST_OBJS) $(PROGRAM_OBJS) -o $(BIN_DIR)/$(TEST_NAME)
+	$(CC) $(CFLAGS) $(TEST_OBJS) $(PROGRAM_OBJS) -o $(BIN_DIR)/$(TEST_NAME) $(SFML_FLAGS)
 
 $(OBJ_DIR)/$(PROGRAM_NAME): $(PROGRAM_OBJS) $(MAIN)
-	$(CC) $(CFLAGS) $(PROGRAM_OBJS) $(MAIN) -o $(BIN_DIR)/$(PROGRAM_NAME)
+	$(CC) $(CFLAGS) $(PROGRAM_OBJS) $(MAIN) -o $(BIN_DIR)/$(PROGRAM_NAME) $(SFML_FLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc $(INC_DIR)/%.h
 	$(CC) -c $(CFLAGS) $< -I $(INC_DIR) -o $@
