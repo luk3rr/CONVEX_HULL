@@ -75,4 +75,4 @@ namespace geom {
     };
 }
 
-#endif // LINE_H_
+#endif // LINE_2D_H_

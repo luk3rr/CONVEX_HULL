@@ -1,0 +1,8 @@
+src/tests/inputs/ENTRADA10.txt
+src/tests/inputs/ENTRADA90.txt
+src/tests/inputs/ENTRADA91_1.txt
+src/tests/inputs/ENTRADA100.txt
+src/tests/inputs/ENTRADA1000.txt
+exit
+
+# o arquivo de 3000 pontos demora 30min para rodar ._.

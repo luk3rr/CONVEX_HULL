@@ -2,9 +2,9 @@
 SRC_DIR = src
 OBJ_DIR = obj
 INC_DIR = include
-3RD_DIR = 3rd_party
 BIN_DIR = bin
-TST_DIR = tests
+LIB_DIR = $(INC_DIR)/lib
+TST_DIR = $(SRC_DIR)/tests
 
 # NOME DOS EXECUTAVEIS
 PROGRAM_NAME = program
@@ -65,7 +65,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc $(INC_DIR)/%.h
 	$(CC) -c $(CFLAGS) $< -I $(INC_DIR) -o $@
 
 $(OBJ_DIR)/%.o: $(TST_DIR)/%.cc
-	$(CC) -c $(CFLAGS) $< -I $(INC_DIR) -I $(3RD_DIR) -o $@
+	$(CC) -c $(CFLAGS) $< -I $(INC_DIR) -I $(LIB_DIR) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cc
 	$(CC) -c $(CFLAGS) $< -I $(INC_DIR) -o $@
