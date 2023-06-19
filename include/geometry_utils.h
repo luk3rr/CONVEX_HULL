@@ -4,6 +4,9 @@
 * Author: Lucas Araújo <araujolucas@dcc.ufmg.br>
 */
 
+#ifndef GEOMETRY_UTILS_H_
+#define GEOMETRY_UTILS_H_
+
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
@@ -123,3 +126,5 @@ namespace geom {
             static bool IsPolygon(Vector<Point2D> &points);
     };
 }
+
+#endif // GEOMETRY_UTILS_H_
