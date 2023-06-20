@@ -13,12 +13,12 @@ TEST_NAME = test
 # CONFIGURAÇÕES DO COMPILADOR
 OS_NAME := $(shell grep -oP '(?<=^NAME=).+' /etc/os-release | tr -d '"')
 
-ifeq ($(OS_NAME), Arch Linux)
-	CC = g++
-
-else ifeq ($(OS_NAME), Ubuntu)
+ifeq ($(OS_NAME), Ubuntu)
     # Please, install g++12: sudo apt install g++-12
 	CC = g++-12
+
+else
+	CC = g++
 
 endif
 
