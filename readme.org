@@ -12,7 +12,7 @@ CONVEX_HULL pode ser compilado com o seguinte comando:
 
 #+begin_src sh
 $ ./run --build
-$+end_src
+#+end_src
 
 O comando acima chama o script python responsável por controlar a compilação e execução do projeto utilizando o cmake. A flag =--build= diz ao script para realizar a compilação do projeto.
 
@@ -27,12 +27,12 @@ Para executar o programa, há duas opções:
 
 | Parâmetro               | Descrição                                 |
 |-------------------------|-------------------------------------------|
-| `-f, --file <string>`   | Caminho do arquivo                        |
-| `-r, --random`          | Gera pontos aleatórios                    |
-| `-p, --points <int>`    | Número de pontos aleatórios               |
-| `-g, --graphic`         | Habilita o modo gráfico                   |
-| `-a, --analyzer`        | Realiza uma bateria de testes             |
-| `-h, --help`            | Mensagem de ajuda                         |
+| =-f, --file <string>=   | Caminho do arquivo                        |
+| =-r, --random=          | Gera pontos aleatórios                    |
+| =-p, --points <int>=    | Número de pontos aleatórios               |
+| =-g, --graphic=         | Habilita o modo gráfico                   |
+| =-a, --analyzer=        | Realiza uma bateria de testes             |
+| =-h, --help=            | Mensagem de ajuda                         |
 
 + Execução sem passagem de parâmetro: ``make run``
     1. O programa será iniciado e aguardará o caminho do arquivo com o conjunto de pontos
