@@ -297,7 +297,7 @@ TEST_CASE("Comparação ordenação pontos aleatórios: Graham") {
 
     if (!pass) {
         std::cout << " MERGE " << " BUCKET " << " INSERTION " << std::endl;
-        for (unsigned int i = 0; i < unsigned(utils::Max(gmerge.Size(), gbucket.Size(), ginsertion.Size())); i++) {
+        for (unsigned int i = 0; i < unsigned(utils::Max(gmerge.Size(), utils::Max(gbucket.Size(), ginsertion.Size()))); i++) {
             if (i < gmerge.Size()) {
                 std::cout << " ~ " << gmerge[i];
             }

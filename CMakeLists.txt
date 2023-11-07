@@ -1,0 +1,58 @@
+# Filename: CMakeLists.txt
+# Created on: November  5, 2023
+# Author: Lucas Araújo <araujolucas@dcc.ufmg.br>
+
+CMAKE_MINIMUM_REQUIRED(VERSION 3.5)
+
+# Set default parameters
+PROJECT(ConvexHull)
+
+SET(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_EXTENSIONS OFF)
+
+SET(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+SET(UNIT_TEST_DIR ${CMAKE_SOURCE_DIR}/test/unit)
+SET(INC_DIR ${CMAKE_SOURCE_DIR}/include)
+SET(BENCHMARK_DIR ${CMAKE_SOURCE_DIR}/test/benchmark)
+
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/libs)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+# Manager submodules
+## DataStructures
+SET(DATA_STRUCT_DIR ${CMAKE_SOURCE_DIR}/submodules/data_structures)
+INCLUDE_DIRECTORIES(${DATA_STRUCT_DIR}/include)
+AUX_SOURCE_DIRECTORY(${DATA_STRUCT_DIR}/src DATA_STRUCT_PROGRAM)
+ADD_LIBRARY(DataStructures ${DATA_STRUCT_PROGRAM})
+
+# Compile this program
+## Get all files in the folders SRC_DIR and UNIT_TEST_DIR
+AUX_SOURCE_DIRECTORY(${SRC_DIR} PROGRAM)
+AUX_SOURCE_DIRECTORY(${UNIT_TEST_DIR} UNIT_TESTS)
+
+INCLUDE_DIRECTORIES(${INC_DIR})
+INCLUDE_DIRECTORIES(${INC_DIR}/lib)
+INCLUDE_DIRECTORIES(${BENCHMARK_DIR})
+AUX_SOURCE_DIRECTORY(${BENCHMARK_DIR} BENCHMARK)
+
+# Define the program lib
+ADD_LIBRARY(ConvexHull ${PROGRAM})
+ADD_LIBRARY(Benchmark ${BENCHMARK})
+
+# Make executables
+ADD_EXECUTABLE(program ${PROGRAM})
+ADD_EXECUTABLE(unit_test ${UNIT_TESTS})
+
+# Link libs
+TARGET_LINK_LIBRARIES(unit_test ConvexHull DataStructures)
+TARGET_LINK_LIBRARIES(program Benchmark DataStructures)
+
+# Other dependencies
+FIND_PACKAGE(SFML 2.5 REQUIRED COMPONENTS system window graphics)
+TARGET_LINK_LIBRARIES(program sfml-system sfml-window sfml-graphics)
+TARGET_LINK_LIBRARIES(unit_test sfml-system sfml-window sfml-graphics)
+
+# Compile options
+#TARGET_COMPILE_OPTIONS(ConvexHull PRIVATE -Wall -O0)
+#TARGET_COMPILE_OPTIONS(DataStructures PRIVATE -Wall -O0)

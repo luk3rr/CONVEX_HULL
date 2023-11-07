@@ -24,4 +24,4 @@ jobs:
       run: sudo apt-get install g++-12
 
     - name: Run Testes
-      run:  make tests
+      run:  ./run -t

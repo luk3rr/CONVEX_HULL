@@ -1,24 +1,28 @@
 /*
-* Filename: animation_controller.cc
-* Created on: June 10, 2023
-* Author: Lucas Araújo <araujolucas@dcc.ufmg.br>
-*/
+ * Filename: animation_controller.cc
+ * Created on: June 10, 2023
+ * Author: Lucas Araújo <araujolucas@dcc.ufmg.br>
+ */
 
 #include "animation_controller.h"
 #include "convex_hull.h" // Adicionado aqui devido ao problema de dependência circular
 
-AnimationController::AnimationController() {
+AnimationController::AnimationController()
+{
     this->m_screen = sf::Vector2i(WINDOW_SIZE_X, WINDOW_SIZE_Y);
-    this->m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y), "Fecho Convexo");
+    this->m_window = new sf::RenderWindow(sf::VideoMode(WINDOW_SIZE_X, WINDOW_SIZE_Y),
+                                          "Fecho Convexo");
 }
 
-AnimationController::~AnimationController() {
+AnimationController::~AnimationController()
+{
     delete this->m_window;
 }
 
-void AnimationController::RenderCartesianPlane() {
-    double originX = WINDOW_SIZE_Y / 2.f;
-    double originY = WINDOW_SIZE_X / 2.f;
+void AnimationController::RenderCartesianPlane()
+{
+    double originX       = WINDOW_SIZE_Y / 2.f;
+    double originY       = WINDOW_SIZE_X / 2.f;
     double axisThickness = 1.2;
 
     sf::RectangleShape xAxis(sf::Vector2f(WINDOW_SIZE_X, axisThickness));
@@ -32,26 +36,33 @@ void AnimationController::RenderCartesianPlane() {
     this->m_window->draw(yAxis);
 }
 
-void AnimationController::Refresh(Vector<geom::Point2D> &points) {
+void AnimationController::Refresh(Vector<geom::Point2D>& points)
+{
     this->m_window->clear(BACKGROUND_COLOR);
     this->RenderCartesianPlane();
 
-    for (unsigned int i = 0; i < points.Size(); i++) {
+    for (unsigned int i = 0; i < points.Size(); i++)
+    {
         points[i].Draw(*this->m_window, POINT_COLOR);
     }
 
     this->m_window->display();
 }
 
-void AnimationController::Refresh(Vector<geom::Point2D> &points, Vector<geom::Point2D> &convex) {
+void AnimationController::Refresh(Vector<geom::Point2D>& points,
+                                  Vector<geom::Point2D>& convex)
+{
     this->m_window->clear(BACKGROUND_COLOR);
 
-    for (unsigned int i = 0; i < points.Size(); i++) {
+    for (unsigned int i = 0; i < points.Size(); i++)
+    {
         points[i].Draw(*this->m_window, POINT_COLOR);
     }
 
-    if (convex.Size() > 2) {
-        for (unsigned int i = 0; i < convex.Size() - 1; i++) {
+    if (convex.Size() > 2)
+    {
+        for (unsigned int i = 0; i < convex.Size() - 1; i++)
+        {
             geom::Line2D line(convex[i], convex[i + 1]);
             line.Draw(*this->m_window, LINE_COLOR);
         }
@@ -61,20 +72,27 @@ void AnimationController::Refresh(Vector<geom::Point2D> &points, Vector<geom::Po
     sf::sleep(sf::seconds(1.f / points.Size()));
 
     // Quando o fecho estiver completo, a animação permanece por alguns segundos a mais
-    if (convex[0] == convex[convex.Size() - 1]) {
+    if (convex[0] == convex[convex.Size() - 1])
+    {
         sf::sleep(sf::seconds(1.5));
     }
 }
 
-void AnimationController::Refresh(Vector<geom::Point2D> &points, Vector<geom::Point2D> &convex, geom::Point2D &currentPoint) {
+void AnimationController::Refresh(Vector<geom::Point2D>& points,
+                                  Vector<geom::Point2D>& convex,
+                                  geom::Point2D&         currentPoint)
+{
     this->m_window->clear(BACKGROUND_COLOR);
 
-    for (unsigned int i = 0; i < points.Size(); i++) {
+    for (unsigned int i = 0; i < points.Size(); i++)
+    {
         points[i].Draw(*this->m_window, POINT_COLOR);
     }
 
-    if (convex.Size() > 2) {
-        for (unsigned int i = 0; i < convex.Size() - 1; i++) {
+    if (convex.Size() > 2)
+    {
+        for (unsigned int i = 0; i < convex.Size() - 1; i++)
+        {
             geom::Line2D line(convex[i], convex[i + 1]);
             line.Draw(*this->m_window, LINE_COLOR);
         }
@@ -86,23 +104,30 @@ void AnimationController::Refresh(Vector<geom::Point2D> &points, Vector<geom::Po
     sf::sleep(sf::seconds(1.f / points.Size()));
 }
 
-void AnimationController::Start(Vector<geom::Point2D> &points) {
+void AnimationController::Start(Vector<geom::Point2D>& points)
+{
     Vector<geom::Point2D> convex;
 
-    this->m_window->create(sf::VideoMode(this->m_screen.x, this->m_screen.y), "Fecho Convexo", sf::Style::Close);
+    this->m_window->create(sf::VideoMode(this->m_screen.x, this->m_screen.y),
+                           "Fecho Convexo",
+                           sf::Style::Close);
     this->m_window->setFramerateLimit(60);
 
-    sf::View view(sf::Vector2f(this->m_screen.x / 2.0f, this->m_screen.y / 2.0f), sf::Vector2f(this->m_screen.x, this->m_screen.y));
+    sf::View    view(sf::Vector2f(this->m_screen.x / 2.0f, this->m_screen.y / 2.0f),
+                  sf::Vector2f(this->m_screen.x, this->m_screen.y));
     const float zoomAmount = 1.2f;
 
-    bool mouseIsDragging = false;
+    bool         mouseIsDragging = false;
     sf::Vector2f lastMousePos;
 
-    while (this->m_window->isOpen()) {
+    while (this->m_window->isOpen())
+    {
         sf::Event event;
 
-        while (this->m_window->pollEvent(event)) {
-            switch (event.type) {
+        while (this->m_window->pollEvent(event))
+        {
+            switch (event.type)
+            {
                 case sf::Event::Closed:
                     this->m_window->close();
                     break;
@@ -116,20 +141,24 @@ void AnimationController::Start(Vector<geom::Point2D> &points) {
                     break;
 
                 case sf::Event::MouseButtonPressed:
-                    if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (event.mouseButton.button == sf::Mouse::Left)
+                    {
                         if (mouseIsDragging)
                             mouseIsDragging = false;
                         else
                             mouseIsDragging = true;
 
-                        lastMousePos = sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
+                        lastMousePos =
+                            sf::Vector2f(event.mouseButton.x, event.mouseButton.y);
                     }
 
                     break;
 
                 case sf::Event::MouseMoved:
-                    if (mouseIsDragging) {
-                        sf::Vector2f currentMousePos(event.mouseMove.x, event.mouseMove.y);
+                    if (mouseIsDragging)
+                    {
+                        sf::Vector2f currentMousePos(event.mouseMove.x,
+                                                     event.mouseMove.y);
                         sf::Vector2f delta = currentMousePos - lastMousePos;
 
                         view.move(-delta);
@@ -140,13 +169,19 @@ void AnimationController::Start(Vector<geom::Point2D> &points) {
                     break;
 
                 case sf::Event::KeyPressed:
-                    if (event.key.code == sf::Keyboard::J) {
+                    if (event.key.code == sf::Keyboard::J)
+                    {
                         geom::ConvexHull::JarvisMarch(points, convex, *this);
                     }
-                    if (event.key.code == sf::Keyboard::G) {
-                        geom::ConvexHull::GrahamScan(points, convex, geom::Utils::MergeSort, *this);
+                    if (event.key.code == sf::Keyboard::G)
+                    {
+                        geom::ConvexHull::GrahamScan(points,
+                                                     convex,
+                                                     geom::Utils::MergeSort,
+                                                     *this);
                     }
-                    if (event.key.code == sf::Keyboard::Q) {
+                    if (event.key.code == sf::Keyboard::Q)
+                    {
                         this->m_window->close();
                     }
 
