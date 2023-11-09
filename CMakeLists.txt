@@ -26,6 +26,12 @@ INCLUDE_DIRECTORIES(${DATA_STRUCT_DIR}/include)
 AUX_SOURCE_DIRECTORY(${DATA_STRUCT_DIR}/src DATA_STRUCT_PROGRAM)
 ADD_LIBRARY(DataStructures ${DATA_STRUCT_PROGRAM})
 
+## Sorting Algorithms
+SET(SORT_ALG_DIR ${CMAKE_SOURCE_DIR}/submodules/sorting_algorithms)
+AUX_SOURCE_DIRECTORY(${SORT_ALG_DIR}/src SORT_ALG_PROGRAM)
+INCLUDE_DIRECTORIES(${SORT_ALG_DIR}/include)
+ADD_LIBRARY(SortingAlgorithms ${SORT_ALG_PROGRAM})
+
 # Compile this program
 ## Get all files in the folders SRC_DIR and UNIT_TEST_DIR
 AUX_SOURCE_DIRECTORY(${SRC_DIR} PROGRAM)
@@ -45,8 +51,8 @@ ADD_EXECUTABLE(program ${PROGRAM})
 ADD_EXECUTABLE(unit_test ${UNIT_TESTS})
 
 # Link libs
-TARGET_LINK_LIBRARIES(unit_test ConvexHull DataStructures)
-TARGET_LINK_LIBRARIES(program Benchmark DataStructures)
+TARGET_LINK_LIBRARIES(unit_test ConvexHull DataStructures SortingAlgorithms)
+TARGET_LINK_LIBRARIES(program Benchmark DataStructures SortingAlgorithms)
 
 # Other dependencies
 FIND_PACKAGE(SFML 2.5 REQUIRED COMPONENTS system window graphics)

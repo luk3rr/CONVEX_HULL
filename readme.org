@@ -34,10 +34,10 @@ Para executar o programa, há duas opções:
 | =-a, --analyzer=        | Realiza uma bateria de testes             |
 | =-h, --help=            | Mensagem de ajuda                         |
 
-+ Execução sem passagem de parâmetro: ``make run``
++ Execução sem passagem de parâmetro: =./run --exec=
     1. O programa será iniciado e aguardará o caminho do arquivo com o conjunto de pontos
-        1. Esse caminho pode ser passado digitando ``fecho caminho/entradas.txt`` ou somente ``caminho/entradas.txt``
-    2. A execução sem parâmetro pode ser agilizada quando houver disponível um arquivo de texto de forma que cada linha desse arquivo contenha o caminho de um arquivo com as entradas. Dessa forma, você pode simplesmente utilizar o operador de direcionamento dos sistemas Unix da seguinte maneira: ``make run < caminho/todas_as_entradas.txt``
+        1. Esse caminho pode ser passado digitando =fecho caminho/entradas.txt= ou somente =caminho/entradas.txt=
+    2. A execução sem parâmetro pode ser agilizada quando houver disponível um arquivo de texto de forma que cada linha desse arquivo contenha o caminho de um arquivo com as entradas. Dessa forma, você pode simplesmente utilizar o operador de direcionamento dos sistemas Unix da seguinte maneira: =./run --exec --exec_args < caminho/todas_as_entradas.txt=
 
 OBS.: O arquivo de entrada de pontos deve estar estruturado de forma que cada linha tenha a coordenada x e y do ponto, separadas por um espaço em branco. Veja alguns exemplos em [[https://github.com/luk3rr/CONVEX_HULL/tree/main/tests/inputs][test/inputs]].
 
