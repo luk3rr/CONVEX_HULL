@@ -11,6 +11,22 @@ SET(CMAKE_CXX_STANDARD 20)
 SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 SET(CMAKE_CXX_EXTENSIONS OFF)
 
+# Set the build type (Release or Debug)
+IF(NOT CMAKE_BUILD_TYPE)
+    SET(CMAKE_BUILD_TYPE Release)
+ENDIF()
+
+# Set compiler flags for different build types
+IF(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    SET(EXECUTABLE_NAME "program_debug")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -Wall -Wextra -pedantic")
+ELSE()
+    SET(EXECUTABLE_NAME "program")
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -Wall -Wextra -pedantic")
+ENDIF()
+
+MESSAGE(STATUS "C++ Compiler Flags:${CMAKE_CXX_FLAGS}")
+
 SET(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
 SET(UNIT_TEST_DIR ${CMAKE_SOURCE_DIR}/test/unit)
 SET(INC_DIR ${CMAKE_SOURCE_DIR}/include)
@@ -18,6 +34,11 @@ SET(BENCHMARK_DIR ${CMAKE_SOURCE_DIR}/test/benchmark)
 
 SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build/libs)
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${CMAKE_BINARY_DIR}/lib/Debug)
+SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${CMAKE_BINARY_DIR}/lib/Release)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_SOURCE_DIR}/bin/Debug)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/bin/Release)
 
 # Manager submodules
 ## DataStructures
@@ -58,7 +79,3 @@ TARGET_LINK_LIBRARIES(program Benchmark DataStructures SortingAlgorithms)
 FIND_PACKAGE(SFML 2.5 REQUIRED COMPONENTS system window graphics)
 TARGET_LINK_LIBRARIES(program sfml-system sfml-window sfml-graphics)
 TARGET_LINK_LIBRARIES(unit_test sfml-system sfml-window sfml-graphics)
-
-# Compile options
-#TARGET_COMPILE_OPTIONS(ConvexHull PRIVATE -Wall -O0)
-#TARGET_COMPILE_OPTIONS(DataStructures PRIVATE -Wall -O0)

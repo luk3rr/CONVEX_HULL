@@ -22,3 +22,5 @@ CTestTestfile.cmake
 _deps
 build/**/Makefile
 build/libs/*
+build/**/*
+bin/**/*
